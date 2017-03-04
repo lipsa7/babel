@@ -27,6 +27,9 @@ flow:
 fix:
 	./node_modules/.bin/eslint packages/ --format=codeframe --fix
 
+format:
+	./node_modules/.bin/prettier --trailing-comma all --write "packages/*/src/**/*.js"
+
 clean: test-clean
 	rm -rf packages/babel-polyfill/browser*
 	rm -rf packages/babel-polyfill/dist
