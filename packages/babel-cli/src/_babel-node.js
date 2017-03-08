@@ -17,7 +17,10 @@ program.option("-e, --eval [script]", "Evaluate script");
 program.option("-p, --print [code]", "Evaluate script and print result");
 program.option("-o, --only [globs]", "");
 program.option("-i, --ignore [globs]", "");
-program.option("-x, --extensions [extensions]", "List of extensions to hook into [.es6,.js,.es,.jsx]");
+program.option(
+  "-x, --extensions [extensions]",
+  "List of extensions to hook into [.es6,.js,.es,.jsx]",
+);
 program.option("-w, --plugins [string]", "", util.list);
 program.option("-b, --presets [string]", "", util.list);
 
@@ -45,23 +48,28 @@ const replPlugin = ({ types: t }) => ({
 
     VariableDeclaration(path) {
       if (path.node.kind !== "var") {
-        throw path.buildCodeFrameError("Only `var` variables are supported in the REPL");
+        throw path.buildCodeFrameError(
+          "Only `var` variables are supported in the REPL",
+        );
       }
     },
 
     Program(path) {
-      if (path.get("body").some((child) => child.isExpressionStatement())) return;
+      if (path.get("body").some(child => child.isExpressionStatement())) return;
 
       // If the executed code doesn't evaluate to a value,
       // prevent implicit strict mode from printing 'use strict'.
-      path.pushContainer("body", t.expressionStatement(t.identifier("undefined")));
+      path.pushContainer(
+        "body",
+        t.expressionStatement(t.identifier("undefined")),
+      );
     },
   },
 });
 
 //
 
-const _eval = function (code, filename) {
+const _eval = function(code, filename) {
   code = code.trim();
   if (!code) return undefined;
 
@@ -103,7 +111,7 @@ if (program.eval || program.print) {
 
     let i = 0;
     let ignoreNext = false;
-    args.some(function (arg, i2) {
+    args.some(function(arg, i2) {
       if (ignoreNext) {
         ignoreNext = false;
         return;
@@ -123,7 +131,8 @@ if (program.eval || program.print) {
 
     // make the filename absolute
     const filename = args[0];
-    if (!path.isAbsolute(filename)) args[0] = path.join(process.cwd(), filename);
+    if (!path.isAbsolute(filename))
+      args[0] = path.join(process.cwd(), filename);
 
     // add back on node and concat the sliced args
     process.argv = ["node"].concat(args);

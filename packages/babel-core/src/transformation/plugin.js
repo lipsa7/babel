@@ -39,7 +39,7 @@ export default class Plugin extends Store {
 
     const fns: Array<?Function> = [target[key], this[key]];
 
-    return function (...args) {
+    return function(...args) {
       let val;
       for (const fn of fns) {
         if (fn) {
@@ -82,8 +82,10 @@ export default class Plugin extends Store {
   normaliseVisitor(visitor: Object): Object {
     for (const key of GLOBAL_VISITOR_PROPS) {
       if (visitor[key]) {
-        throw new Error("Plugins aren't allowed to specify catch-all enter/exit handlers. " +
-          "Please target individual nodes.");
+        throw new Error(
+          "Plugins aren't allowed to specify catch-all enter/exit handlers. " +
+            "Please target individual nodes.",
+        );
       }
     }
 

@@ -49,8 +49,12 @@ function remap(path, key) {
   let currentFunction;
   let passedShadowFunction = false;
 
-  let fnPath = path.find(function (innerPath) {
-    if (innerPath.parentPath && innerPath.parentPath.isClassProperty() && innerPath.key === "value") {
+  let fnPath = path.find(function(innerPath) {
+    if (
+      innerPath.parentPath &&
+      innerPath.parentPath.isClassProperty() &&
+      innerPath.key === "value"
+    ) {
       return true;
     }
     if (path === innerPath) return false;
@@ -63,9 +67,14 @@ function remap(path, key) {
       passedShadowFunction = true;
 
       return true;
-    } else if (innerPath.isFunction() && !innerPath.isArrowFunctionExpression()) {
+    } else if (
+      innerPath.isFunction() && !innerPath.isArrowFunctionExpression()
+    ) {
       if (shadowFunction) {
-        if (innerPath === shadowFunction || innerPath.node === shadowFunction.node) return true;
+        if (
+          innerPath === shadowFunction || innerPath.node === shadowFunction.node
+        )
+          return true;
       } else {
         if (!innerPath.is("shadow")) return true;
       }
@@ -81,7 +90,7 @@ function remap(path, key) {
     // If the shadow wasn't found, take the closest function as a backup.
     // This is a bit of a hack, but it will allow the parameter transforms to work properly
     // without introducing yet another shadow-controlling flag.
-    fnPath = path.findParent((p) => p.isProgram() || p.isFunction());
+    fnPath = path.findParent(p => p.isProgram() || p.isFunction());
   }
 
   // no point in realiasing if we're in this function
@@ -98,10 +107,14 @@ function remap(path, key) {
 
   fnPath.setData(key, id);
 
-  const classPath = fnPath.findParent((p) => p.isClass());
-  const hasSuperClass = !!(classPath && classPath.node && classPath.node.superClass);
+  const classPath = fnPath.findParent(p => p.isClass());
+  const hasSuperClass = !!(classPath &&
+    classPath.node &&
+    classPath.node.superClass);
 
-  if (key === "this" && fnPath.isMethod({ kind: "constructor" }) && hasSuperClass) {
+  if (
+    key === "this" && fnPath.isMethod({ kind: "constructor" }) && hasSuperClass
+  ) {
     fnPath.scope.push({ id });
 
     fnPath.traverse(superVisitor, { id });

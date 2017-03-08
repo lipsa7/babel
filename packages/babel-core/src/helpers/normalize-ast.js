@@ -6,7 +6,7 @@ import * as t from "babel-types";
  * - Wrap `Program` node with a `File` node.
  */
 
-export default function (
+export default function(
   ast: Object,
   comments?: Array<Object>,
   tokens?: Array<Object>,

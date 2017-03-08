@@ -12,7 +12,7 @@ import fileCommand from "./file";
 
 import pkg from "../../package.json";
 
-Object.keys(options).forEach(function (key) {
+Object.keys(options).forEach(function(key) {
   const option = options[key];
   if (option.hidden) return;
 
@@ -40,12 +40,27 @@ Object.keys(options).forEach(function (key) {
 });
 
 /* eslint-disable max-len */
-commander.option("-x, --extensions [extensions]", "List of extensions to compile when a directory has been input [.es6,.js,.es,.jsx]");
+commander.option(
+  "-x, --extensions [extensions]",
+  "List of extensions to compile when a directory has been input [.es6,.js,.es,.jsx]",
+);
 commander.option("-w, --watch", "Recompile files on changes");
-commander.option("--skip-initial-build", "Do not compile files before watching");
-commander.option("-o, --out-file [out]", "Compile all input files into a single file");
-commander.option("-d, --out-dir [out]", "Compile an input directory of modules into an output directory");
-commander.option("-D, --copy-files", "When compiling a directory copy over non-compilable files");
+commander.option(
+  "--skip-initial-build",
+  "Do not compile files before watching",
+);
+commander.option(
+  "-o, --out-file [out]",
+  "Compile all input files into a single file",
+);
+commander.option(
+  "-d, --out-dir [out]",
+  "Compile an input directory of modules into an output directory",
+);
+commander.option(
+  "-D, --copy-files",
+  "When compiling a directory copy over non-compilable files",
+);
 commander.option("-q, --quiet", "Don't log anything");
 /* eslint-enable max-len */
 
@@ -63,15 +78,18 @@ if (commander.extensions) {
 
 const errors = [];
 
-let filenames = commander.args.reduce(function (globbed, input) {
-  let files = glob.sync(input);
-  if (!files.length) files = [input];
-  return globbed.concat(files);
-}, []);
+let filenames = commander.args.reduce(
+  function(globbed, input) {
+    let files = glob.sync(input);
+    if (!files.length) files = [input];
+    return globbed.concat(files);
+  },
+  [],
+);
 
 filenames = uniq(filenames);
 
-filenames.forEach(function (filename) {
+filenames.forEach(function(filename) {
   if (!fs.existsSync(filename)) {
     errors.push(filename + " doesn't exist");
   }
@@ -108,7 +126,7 @@ if (errors.length) {
 
 export const opts = {};
 
-Object.keys(options).forEach(function (key) {
+Object.keys(options).forEach(function(key) {
   const opt = options[key];
   if (commander[key] !== undefined && commander[key] !== opt.default) {
     opts[key] = commander[key];

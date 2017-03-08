@@ -12,7 +12,7 @@ export function chmod(src, dest) {
 }
 
 export function readdirFilter(filename) {
-  return readdir(filename).filter(function (filename) {
+  return readdir(filename).filter(function(filename) {
     return babel.util.canCompile(filename);
   });
 }
@@ -65,7 +65,7 @@ function toErrorStack(err) {
   }
 }
 
-process.on("uncaughtException", function (err) {
+process.on("uncaughtException", function(err) {
   console.error(toErrorStack(err));
   process.exit(1);
 });
@@ -76,7 +76,7 @@ export function requireChokidar() {
   } catch (err) {
     console.error(
       "The optional dependency chokidar failed to install and is required for " +
-      "--watch. Chokidar is likely not supported on your platform."
+        "--watch. Chokidar is likely not supported on your platform.",
     );
     throw err;
   }

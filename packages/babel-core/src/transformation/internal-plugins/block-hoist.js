@@ -34,7 +34,7 @@ export default new Plugin({
           if (priority === true) priority = 2;
 
           // Higher priorities should move toward the top.
-          return -1 * priority;
+          return (-1) * priority;
         });
       },
     },

@@ -5,7 +5,7 @@ import fs from "fs";
 
 import * as util from "./util";
 
-export default function (commander, filenames) {
+export default function(commander, filenames) {
   function write(src, relative) {
     // remove extension and then append back on .js
     relative = relative.replace(/\.(\w*?)$/, "") + ".js";
@@ -51,7 +51,7 @@ export default function (commander, filenames) {
     if (stat.isDirectory(filename)) {
       const dirname = filename;
 
-      util.readdir(dirname).forEach(function (filename) {
+      util.readdir(dirname).forEach(function(filename) {
         const src = path.join(dirname, filename);
         handleFile(src, filename);
       });
@@ -67,7 +67,7 @@ export default function (commander, filenames) {
   if (commander.watch) {
     const chokidar = util.requireChokidar();
 
-    filenames.forEach(function (dirname) {
+    filenames.forEach(function(dirname) {
       const watcher = chokidar.watch(dirname, {
         persistent: true,
         ignoreInitial: true,
@@ -77,8 +77,8 @@ export default function (commander, filenames) {
         },
       });
 
-      ["add", "change"].forEach(function (type) {
-        watcher.on(type, function (filename) {
+      ["add", "change"].forEach(function(type) {
+        watcher.on(type, function(filename) {
           const relative = path.relative(dirname, filename) || filename;
           try {
             handleFile(filename, relative);
